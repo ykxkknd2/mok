@@ -1,0 +1,36 @@
+{
+  "name": "mok_ykx",
+  "version": "1.0.2",
+  "description": "",
+  "main": "mok.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "mok": "bin/mok"
+  },
+  "keywords": [
+    "mok ykx"
+  ],
+  "author": "ykxkknd2",
+  "license": "ISC",
+  "dependencies": {
+    "amd-optimize": "^0.6.1",
+    "chokidar": "^1.6.1",
+    "colors": "^1.1.2",
+    "glob": "^7.1.1",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-define-module": "^0.1.5",
+    "gulp-handlebars": "^4.0.0",
+    "gulp-if": "^2.0.2",
+    "gulp-notify": "^3.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-rev": "^7.1.2",
+    "gulp-sequence": "^0.4.6",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-uglify": "^2.1.2",
+    "q": "^1.5.0",
+    "rimraf": "^2.6.1"
+  }
+}
