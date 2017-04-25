@@ -6,17 +6,22 @@
 
     function init(){
         http.createServer(function(req,res){
-            var match = req.url.match(config.devServer.pathRegexp);
-            var filePath;
-            if(!match){
-                filePath = path.join(config.paths.base,req.url);
-                readFile(filePath,res);
-            }else if(/vendor/.test(match[0])){
-                filePath = path.join(config.paths.srcVendor,match[1]) + '.js';
-                readFile(filePath,res);
+            if(path.extname(req.url) == '.js'){
+                var match = req.url.match(config.devServer.pathRegexp);
+                var filePath;
+                if(!match){
+                    filePath = path.join(config.paths.baseJs,req.url);
+                    readFile(filePath,res);
+                }else if(/vendor/.test(match[0])){
+                    filePath = path.join(config.paths.srcVendor,match[1]) + '.js';
+                    readFile(filePath,res);
+                }else{
+                    var mainFilePath = match[1].split('_').join('/')
+                    filePath = path.join(config.paths.baseJs,'main',mainFilePath) + '.js';
+                    readFile(filePath,res);
+                }
             }else{
-                var mainFilePath = match[1].split('_').join('/')
-                filePath = path.join(config.paths.base,'main',mainFilePath) + '.js';
+                var filePath = path.join(config.paths.cur,req.url);
                 readFile(filePath,res);
             }
         }).listen(config.devServer.port);
@@ -27,15 +32,17 @@
     function readFile(filePath,res){
         if (fs.existsSync(filePath)) {
 
+            var contentType = config.mineType[path.extname(filePath).slice(1)] || config.mineType['txt'];
+
             res.writeHead(200, {
-                'Content-Type': 'application/x-javascript',
+                'Content-Type': contentType,
                 'Cache-Control': 'max-age=0'
             });
 
             console.log('找到入口文件：', filePath);
             res.end(fs.readFileSync(filePath));
         }else{
-            console.log('找不到文件：',filePath);
+            console.error('找不到文件：',filePath);
             res.statusCode = 404;
             res.end("can't find the file");
         }
